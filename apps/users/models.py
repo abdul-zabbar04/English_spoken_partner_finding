@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
-from django.contrib.postgres.fields import CIEmailField
 
 class User(AbstractUser):
     username= None
-    email = CIEmailField(unique=True, db_index=True, max_length=255)
+    email = models.EmailField(
+        unique=True, db_index=True,
+        max_length=255, db_collation="case_insensitive",
+    )
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
