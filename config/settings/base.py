@@ -13,6 +13,7 @@ sys.path.insert(0, os.path.join(BASE_DIR / 'apps'))
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.postgres',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
