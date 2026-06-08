@@ -26,3 +26,7 @@ DATABASES = {
         'PORT': env('DB_PORT')
     }
 }
+
+DEFAULT_FROM_EMAIL = "noreply@englishBuddy.com"
+
+FRONTEND_URL = env("FRONTEND_URL")
