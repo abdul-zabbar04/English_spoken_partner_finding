@@ -6,7 +6,7 @@ class User(AbstractUser):
     username= None
     email = models.EmailField(
         unique=True, db_index=True,
-        max_length=255, db_collation="case_insensitive",
+        max_length=255
     )
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
