@@ -16,3 +16,21 @@ class RegisterSerializer(serializers.Serializer):
             password=validated_data["password"],
         )
         return user
+    
+
+# email verification serializer
+class VerifyEmailSerializer(
+    serializers.Serializer
+):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+
+    def save(self):
+        from .services import (
+            verify_user_email
+        )
+
+        return verify_user_email(
+            uid=self.validated_data["uid"],
+            token=self.validated_data["token"],
+        )
