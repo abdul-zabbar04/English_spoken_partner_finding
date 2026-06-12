@@ -73,3 +73,36 @@ def verify_user_email(
         )
 
     return user
+
+# Authenticate user
+from django.contrib.auth import authenticate
+from django.core.exceptions import ValidationError
+
+def authenticate_user(
+        *,
+        email: str,
+        password: str,
+) -> User:
+    """
+    Authenticate user with email and password.
+    """
+
+    user = authenticate(
+        email=email,
+        password=password,
+    )
+
+    if user is None:
+        raise ValidationError(
+            "Invalid Credentials."
+        )
+    if not user.is_active:
+        raise ValidationError(
+            "Account is disabled."
+        )
+    if not user.is_verified:
+        raise ValidationError(
+            "Please verify your email first."
+        )
+
+    return user

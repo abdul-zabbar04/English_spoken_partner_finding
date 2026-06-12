@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from .services import register_user
+from .services import register_user, authenticate_user
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -38,3 +38,26 @@ class VerifyEmailSerializer(
             uid=self.validated_data["uid"],
             token=self.validated_data["token"],
         )
+    
+# login serializer
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        email = attrs.get("email", "").lower().strip()
+        password = attrs.get("password")
+
+        if not email or not password:
+            raise serializers.ValidationError(
+                "Email and password are required."
+            )
+
+        user = authenticate_user(
+            email=email,
+            password=password,
+        )
+
+        attrs["user"] = user
+        return attrs
