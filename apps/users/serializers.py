@@ -45,19 +45,12 @@ class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
 
+    def validate_email(self, value):
+        return value.strip().lower()
+
     def validate(self, attrs):
-        email = attrs.get("email", "").lower().strip()
-        password = attrs.get("password")
-
-        if not email or not password:
-            raise serializers.ValidationError(
-                "Email and password are required."
-            )
-
-        user = authenticate_user(
-            email=email,
-            password=password,
+        attrs["user"] = authenticate_user(
+            email=attrs["email"],
+            password=attrs["password"],
         )
-
-        attrs["user"] = user
         return attrs
