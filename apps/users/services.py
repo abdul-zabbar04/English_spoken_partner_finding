@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
-
+from django.db import transaction
 from .emails import send_verification_email
 
 User = get_user_model()
 
-
+@transaction.atomic
 def register_user(
     *,
     email: str,
