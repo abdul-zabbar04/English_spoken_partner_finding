@@ -77,6 +77,7 @@ def verify_user_email(
 # Authenticate user
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
+from rest_framework.exceptions import AuthenticationFailed
 
 def authenticate_user(
         *,
@@ -93,7 +94,7 @@ def authenticate_user(
     )
 
     if user is None:
-        raise ValidationError(
+        raise AuthenticationFailed(
             "Invalid Credentials."
         )
     if not user.is_active:
