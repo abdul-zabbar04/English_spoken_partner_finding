@@ -20,7 +20,7 @@ def register_user(
         password=password,
     )
 
-    send_verification_email(user)
+    send_verification_email(user= user)
 
     return user
 
