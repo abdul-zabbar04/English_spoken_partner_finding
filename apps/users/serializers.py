@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from django.contrib.auth.password_validation import validate_password
 from .services import register_user
 
 
@@ -9,6 +9,10 @@ class RegisterSerializer(serializers.Serializer):
 
     def validate_email(self, value):
         return value.lower().strip()
+    
+    def validate_password(self, value):
+        validate_password(value)
+        return value
 
     def create(self, validated_data):
         user = register_user(
