@@ -83,3 +83,19 @@ class LoginAPIView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+# Me view to get current user details
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
+class MeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        return Response({
+            "id": user.id,
+            "email": user.email,
+            "is_verified": user.is_verified,
+        })
