@@ -86,7 +86,6 @@ class LoginAPIView(APIView):
 
 # Me view to get current user details
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class MeAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -99,3 +98,25 @@ class MeAPIView(APIView):
             "email": user.email,
             "is_verified": user.is_verified,
         })
+
+# Logout view with token blacklisting
+class LogoutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data.get("refresh")
+
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(
+                {"detail": "Logged out successfully."},
+                status=status.HTTP_200_OK,
+            )
+
+        except Exception:
+            return Response(
+                {"detail": "Invalid token."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
