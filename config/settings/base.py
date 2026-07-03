@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # My built apps
     'apps.users',
     'apps.core',
+    'apps.profiles',
     'apps.matching',
     'apps.chat',
     'apps.reviews',
