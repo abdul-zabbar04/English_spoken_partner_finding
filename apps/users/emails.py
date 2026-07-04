@@ -15,7 +15,7 @@ def send_verification_email(*, user: User) -> None:
     verification_data = generate_verification_data(user)
 
     verification_url = (
-        f"{settings.FRONTEND_URL}/verify-email/"
+        f"http://localhost:5173/verify-email/"
         f"{verification_data['uid']}/"
         f"{verification_data['token']}"
     )
